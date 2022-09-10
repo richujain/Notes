@@ -5,19 +5,19 @@ import styles from "../styles/Home.module.css";
 import AuthContext from "../store/auth-context";
 import { useRouter } from "next/router";
 import Head from "next/head";
-
-
-const Home: NextPage = () => {
+const Home = () => {
   const router = useRouter();
-  const authCtx = useContext(AuthContext);
+  const authStatus = useContext(AuthContext).isLoggedIn;
+  
   useEffect(() => {
-    if (authCtx.isLoggedIn) {
-      router.push("/AllNotes/");
+    if(authStatus){
+      router.replace("/allnotes/");
     }
   }, []);
 
   return (
     <div className={styles.container}>
+      {/* <Head /> */}
       <Head>
         <title>Notes App</title>
         <meta
@@ -26,15 +26,16 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {!authCtx.isLoggedIn && <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Notes.js!</a>
-        </h1>
+        <main>
+          <h1 className={styles.title}>
+            Welcome to <a href="https://nextjs.org">Notes.js!</a>
+          </h1>
 
-        <div>
-          <Login />
-        </div>
-      </main> }
+          <div>
+            <Login />
+          </div>
+        </main>
+      
     </div>
   );
 };

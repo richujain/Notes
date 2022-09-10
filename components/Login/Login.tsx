@@ -52,7 +52,7 @@ function Login() {
         },
       })
         .then((res) => {
-          console.log('then 1')
+          console.log("then 1");
           setIsLoading(false);
           if (res.ok) {
             return res.json();
@@ -68,17 +68,17 @@ function Login() {
           }
         })
         .then((data) => {
-          console.log('then 2')
+          console.log("then 2");
           const expirationTime = new Date(
             new Date().getTime() + +data.expiresIn * 1000
           );
-          console.log('Expiratiom time' + expirationTime)
-          console.log('then 4')
+          console.log("Expiratiom time" + expirationTime);
+          console.log("then 4");
           authCtx.login(data.idToken, expirationTime);
-          router.push("/AllNotes/");
+          router.push("/allnotes/");
         })
         .catch((err) => {
-          console.log('then 3')
+          console.log("then 3");
           alert(err.message);
         });
     }

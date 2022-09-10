@@ -1,34 +1,28 @@
 import { useContext, useEffect } from "react";
 import Button from "../../components/UI/Button/Button";
 import AuthContext from "../../store/auth-context";
-
 import { useRouter } from "next/router";
- 
+
 export default function AllNotes() {
+  const router = useRouter();
+  const authCtx = useContext(AuthContext);
   useEffect(() => {
     if (!authCtx.isLoggedIn) {
-      router.push("/");
+      router.replace("/");
     }
-  }, []);
+  })
 
-  const router = useRouter();
-  const authCtx = useContext(AuthContext)
-
-
-    const logoutHandler = () => {
-        authCtx.logout()
-        router.push("/");
-        console.log('logout')
-    }
+  const logoutHandler = () => {
+    authCtx.logout();
+    router.push("/");
+    console.log("logout");
+  };
   return (
     <div>
-      {authCtx.isLoggedIn && <div>
-        All Notes
-        <Button onClick={logoutHandler}>
-            Logout
-        </Button>
-      </div>}
-      
+        <div>
+          All Notes
+          <Button onClick={logoutHandler}>Logout</Button>
+        </div>
     </div>
-  )
+  );
 }
