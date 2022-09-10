@@ -17,13 +17,13 @@ export default function Login() {
   }
 
   const switchAuthModeHandler = () => {
-
+    setIsLogin((prevState) => !prevState);
   }
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
         <div
-          className={`${classes.control}`}
+          className={classes.control}
         >
           <label htmlFor="email">Email</label>
           <input
@@ -40,16 +40,13 @@ export default function Login() {
             id="password"
           />
         </div>
+        
         <div className={classes.actions}>
-        <Button type="submit" className={classes.btn} disabled={true}>
-            Login
-          </Button>
-        </div>
-        <div className={classes.actionsForAuthMode}>
           {!isLoading && (
-            <button>{isLogin ? "Login" : "Create Account"}</button>
+            <Button>{isLogin ? "Login" : "Create Account"}</Button>
           )}
           {isLoading && <p>Sending Request...</p>}
+          <br/>
           <button
             type="button"
             className={classes.toggle}

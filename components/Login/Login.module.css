@@ -48,6 +48,16 @@
   text-align: center;
 }
 
+
+.actions .toggle {
+  margin-top: 1rem;
+  background-color: transparent;
+  color: black;
+  font-size: 1rem;
+  border: none;
+  padding: 0.15rem 1.5rem;
+}
+
 @media (min-width: 768px) {
   .control {
     align-items: center;
