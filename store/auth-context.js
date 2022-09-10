@@ -33,7 +33,6 @@ const retrieveStoredtoken = () => {
       duration: remainingTime,
     };
   } else {
-    console.log('oombi')
     return
   }
   
@@ -70,8 +69,7 @@ export const AuthContextProvider = (props) => {
 
   useEffect(() => {
     if(tokenData){
-        console.log(tokenData.duration)
-        logoutTimer = setTimeout(logoutHandler, tokenData.duration); //5000
+      logoutTimer = setTimeout(logoutHandler, tokenData.duration); //5000
     }
   }, [tokenData, logoutHandler])
 

@@ -5,12 +5,8 @@ import Button from "../UI/Button/Button";
 import AuthContext from "../../store/auth-context";
 import { useRouter } from "next/router";
 
-// import { useHistory } from "react-router-dom";
-
 function Login() {
   const router = useRouter();
-
-  // const history = useHistory()
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [isLogin, setIsLogin] = useState(true);
@@ -40,6 +36,7 @@ function Login() {
         url =
           "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDA6naETxeIRxoh0w1rfWc08raU3fQCMck";
       }
+    
       fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -52,34 +49,29 @@ function Login() {
         },
       })
         .then((res) => {
-          console.log("then 1");
           setIsLoading(false);
           if (res.ok) {
             return res.json();
           } else {
             res.json().then((data) => {
-              let errorMessage = "Authentication failed!";
+              let errorMessage = "Authentication Failed!";
               if (data && data.error && data.error.message) {
                 errorMessage = data.error.message;
               }
-
-              throw new Error(errorMessage);
+              alert(errorMessage)
+              return
             });
           }
         })
         .then((data) => {
-          console.log("then 2");
           const expirationTime = new Date(
             new Date().getTime() + +data.expiresIn * 1000
           );
-          console.log("Expiratiom time" + expirationTime);
-          console.log("then 4");
           authCtx.login(data.idToken, expirationTime);
-          router.push("/allnotes/");
+          router.replace("/allnotes/");
         })
         .catch((err) => {
-          console.log("then 3");
-          alert(err.message);
+          console.log(err);
         });
     }
   };
