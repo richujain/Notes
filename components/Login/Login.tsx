@@ -5,48 +5,47 @@ import Button from "../UI/Button/Button";
 // import AuthContext from "../../store/auth-context";
 // import { useHistory } from "react-router-dom";
 
-export default function Login() {
+function Login() {
   // const history = useHistory()
-  const emailInputRef = useRef();
-  const passwordInputRef = useRef();
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  
-  const submitHandler = () => {
+  const [error, setError] = useState(false);
 
-  }
+  const submitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+    const enteredEmail = emailInputRef.current!.value;
+    const enteredPassword = passwordInputRef.current!.value;
 
+    if ((enteredEmail.trim().length === 0) || (enteredPassword.trim().length === 0)) {
+      setError(true);
+    } else{
+      setError(false);
+    }
+  };
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
-  }
+  };
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
-        <div
-          className={classes.control}
-        >
+        <div className={classes.control}>
           <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-          />
+          <input ref={emailInputRef} type="email" id="email" />
         </div>
-        <div
-          className={`${classes.control}`}
-        >
+        <div className={classes.control}>
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-          />
+          <input ref={passwordInputRef} type="password" id="password" />
         </div>
-        
+
         <div className={classes.actions}>
           {!isLoading && (
-            <Button>{isLogin ? "Login" : "Create Account"}</Button>
+            <Button onClick={submitHandler}>{isLogin ? "Login" : "Create Account"}</Button>
           )}
+          {error && <p style={{ color: 'red', marginBottom: -25 }}>Invalid Entry</p>}
           {isLoading && <p>Sending Request...</p>}
-          <br/>
+          <br />
           <button
             type="button"
             className={classes.toggle}
@@ -57,5 +56,7 @@ export default function Login() {
         </div>
       </form>
     </Card>
-  )
+  );
 }
+
+export default Login;
