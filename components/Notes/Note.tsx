@@ -6,7 +6,6 @@ const Note: React.FC<{
   id: string;
   title: string;
   body: string;
-  category: string;
   color: string
 }> = (props) => {
   return (

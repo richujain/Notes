@@ -4,7 +4,6 @@ import Card from "../UI/Card/Card";
 import classes from "./NewNoteForm.module.css";
 import Modal from "../UI/Modal/Modal";
 import colorClasses from "./Colors.module.css";
-import categoriesClasses from "./Categories.module.css";
 
 interface Props {
   onClose: () => void;
@@ -32,12 +31,37 @@ const COLORS = [
 
 export default function NewNoteForm(props: Props) {
   const [color, setColor] = useState("white");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [body, setBody] = useState("");
+  let enteredTitle, noteData: any;
+  const titleRef = useRef<HTMLInputElement>(null);
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
+    enteredTitle = titleRef.current!.value;
+noteData = {
+  title: enteredTitle,
+  body: body,
+  color: color
+}
+    //color //body //title
+    addToDatabase();
   };
+
+  async function addToDatabase() {
+    //change url when hostin https://notes.com/abc
+    const response = await fetch('api/newnote',{
+      method: 'POST',
+      body: JSON.stringify(noteData),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    console.log(data)
+
+    props.onClose()
+
+  }
 
   const closeHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -45,26 +69,32 @@ export default function NewNoteForm(props: Props) {
   };
 
   const colorHandler = (event: React.FormEvent, color: string) => {
-    event.preventDefault();
     setColor(color);
+  };
+
+  const bodyHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setBody(event.currentTarget.value);
   };
 
   return (
     <Modal className={classes.container}>
       <div className="container" style={{ backgroundColor: `${color}` }}>
-      <Card className={classes.login}>
+        <Card className={classes.login}>
           <form onSubmit={submitHandler}>
             <div className={classes.control}>
               <input
                 placeholder="Title"
                 style={{ fontSize: "2em", backgroundColor: `${color}` }}
                 id="title"
+                ref={titleRef}
               />
             </div>
             <div className={classes.control}>
               <textarea
+                value={body}
+                onChange={bodyHandler}
                 style={{
-                  border: 'none',
+                  border: "none",
                   borderColor: "white",
                   width: "100%",
                   height: "12rem",
@@ -72,17 +102,27 @@ export default function NewNoteForm(props: Props) {
                   resize: "none",
                   fontSize: "1.7em",
                   textTransform: "capitalize",
-                  outline: 'none',
+                  outline: "none",
                   backgroundColor: `${color}`,
                 }}
                 placeholder="Notes"
-                id="email"
+                id="body"
+                // ref={bodyRef}
               />
             </div>
 
             {/* Category goes here */}
 
-            <div className={colorClasses.listColorDiv}>
+           
+
+            <div className={classes.actions}>
+            <Button onClick={submitHandler}>Add Note</Button>
+            <Button onClick={closeHandler}>Close</Button>
+          
+              
+            </div>
+          </form>
+          <div className={colorClasses.listColorDiv}>
               {COLORS.map((color) => (
                 <button
                   // data-value={color.name}
@@ -93,17 +133,7 @@ export default function NewNoteForm(props: Props) {
                 ></button>
               ))}
             </div>
-
-            <div className={classes.actions}>
-              {!isLoading && <Button onClick={submitHandler}>Add Note</Button>}
-              {error && (
-                <p style={{ color: "red", marginBottom: -25 }}>Invalid Entry</p>
-              )}
-              {isLoading && <p>Sending Request...</p>}
-              <Button onClick={closeHandler}>Close</Button>
-            </div>
-          </form>
-      </Card>
+        </Card>
       </div>
     </Modal>
   );

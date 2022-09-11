@@ -16,7 +16,6 @@ const Notes: React.FC<{allNotes: NoteModel[];}> = (props) =>  {
           id = {note.id}
           title = {note.title}
           body = {note.body}
-          category = {note.category}
           color = {note.color}
         />
       ))}
