@@ -1,8 +1,15 @@
+.container {
+  width: 100%;
+  justify-content: center;
+  border-radius: 10px;
+}
+
 .login {
   width: 100%;
   max-width: 40rem;
-  margin: 2rem auto;
   padding: 2rem;
+  /* background: red; */
+  background: transparent;
 }
 
 .control {
@@ -38,7 +45,7 @@
 
 .control input:focus {
   outline: none;
-  border-color: blue;
+  border-color: white;
   background: white;
 }
 

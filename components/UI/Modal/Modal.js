@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import ReactDOM from 'react-dom'
 import classes from './Modal.module.css'
 
 const Backdrop = props => {
@@ -17,7 +16,6 @@ const ModalOverlay = props => {
 
 export default function Modal(props) {
   
-  //Made changes in index.html. Added a div with id overlays in index.html
   return (
     <Fragment>
       <Backdrop onClose={props.onClose} />
