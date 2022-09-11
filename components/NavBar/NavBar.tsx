@@ -1,15 +1,18 @@
 import classes from "./NavBar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
+interface Props {
+  onLogout: () => void;
+}
 
-export default function NavBar() {
+export default function NavBar(props: Props) {
   const router = useRouter();
   const currentRoute = router.pathname;
-  console.log(currentRoute);
-//   const className = currentRoute == "/allnotes" ? "classes.active" : "classes.active"
-  const className = "classes.active"
-  console.log(className);
-
+const logoutHandler = (event: React.FormEvent) => {
+  event.preventDefault();
+  props.onLogout()
+  console.log('ff')
+}
   return (
     <header className={classes.header}>
       <Link href="/allnotes">
@@ -21,8 +24,8 @@ export default function NavBar() {
       <Link href="/addnote">
         <a className={currentRoute == "/addnote" ? classes.active : ""}>Add </a>
       </Link>
-      <Link href="/allnotes/asd">
-        <a href="/allnotes/">Logout</a>
+      <Link href="#">
+        <a onClick={logoutHandler}>Logout</a>
       </Link>
     </header>
   );

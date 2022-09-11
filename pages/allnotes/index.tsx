@@ -31,10 +31,11 @@ export default function AllNotes() {
   return (
     <div>
         <div>
-          <NavBar />
+          <NavBar onLogout={logoutHandler} />
           {/* <Button onClick={logoutHandler}>Logout</Button> */}
-          <Notes allNotes={DUMMY_NOTES} />
+          
         </div>
+        <Notes allNotes={DUMMY_NOTES} />
     </div>
   );
 }
