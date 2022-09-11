@@ -1,0 +1,30 @@
+.notes {
+  display: flex;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+  }
+  /* .notes {
+    display: flex;
+      list-style: none;
+      padding: 0;
+      width: 40rem;
+      flex-direction: column;
+  
+    } */
+
+    /* .notes {
+      display: flex;
+        list-style: none;
+        padding: 0;
+        flex-direction: column;
+        float: left;
+        flex-wrap:wrap;
+        justify-content: flex-start;
+        align-items: stretch;
+      }
+     */

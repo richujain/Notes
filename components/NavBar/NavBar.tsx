@@ -11,7 +11,6 @@ export default function NavBar(props: Props) {
 const logoutHandler = (event: React.FormEvent) => {
   event.preventDefault();
   props.onLogout()
-  console.log('ff')
 }
   return (
     <header className={classes.header}>

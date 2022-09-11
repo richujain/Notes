@@ -5,7 +5,7 @@ import styles from "../styles/Home.module.css";
 import AuthContext from "../store/auth-context";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { motion } from "framer-motion";
+import Layout from "../components/UI/Layout/Layout";
 
 const Home = () => {
   const router = useRouter();
@@ -29,23 +29,7 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {
-              scale: 0.8,
-              opacity: 0,
-            },
-            visible: {
-              scale: 1,
-              opacity: 1,
-              transition: {
-                delay: 0.4,
-              },
-            },
-          }}
-        >
+        <Layout>
           <h1 className={styles.title}>
             Welcome to <a href="https://nextjs.org">Notes.js!</a>
           </h1>
@@ -53,7 +37,7 @@ const Home = () => {
           <div>
             <Login />
           </div>
-        </motion.div>
+        </Layout>
       </main>
     </div>
   );
