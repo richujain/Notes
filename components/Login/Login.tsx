@@ -67,7 +67,7 @@ function Login() {
           const expirationTime = new Date(
             new Date().getTime() + +data.expiresIn * 1000
           );
-          authCtx.login(data.idToken, expirationTime);
+          authCtx.login(data.idToken, expirationTime, data.localId);
           router.replace("/allnotes/");
         })
         .catch((err) => {

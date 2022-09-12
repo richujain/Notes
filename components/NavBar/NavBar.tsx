@@ -11,6 +11,7 @@ export default function NavBar(props: Props) {
   const currentRoute = router.pathname;
 const logoutHandler = (event: React.FormEvent) => {
   event.preventDefault();
+  localStorage.removeItem('localId')
   props.onLogout()
 }
   return (

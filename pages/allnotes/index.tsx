@@ -9,6 +9,7 @@ import { MongoClient } from "mongodb";
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions } from "../../store/notes-slice";
 
+
 const DUMMY_NOTES = [
   {
     id: "1",
@@ -73,6 +74,7 @@ interface Props {
     title: string;
     body: string;
     color: string;
+    localId: string;
   }[];
 }
 
@@ -84,6 +86,8 @@ export default function AllNotes(props: Props) {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
+    
+
     if (!authCtx.isLoggedIn) {
       router.replace("/");
     }
@@ -94,7 +98,9 @@ export default function AllNotes(props: Props) {
       return;
     }
   }, [props.notes]);
+
   let notesFromRedux = useSelector((state: any) => state.notes);
+  
   const logoutHandler = () => {
     authCtx.logout();
     router.push("/");
@@ -115,6 +121,7 @@ export default function AllNotes(props: Props) {
     </div>
   );
 }
+
 export async function getStaticProps() {
   const client = await MongoClient.connect(
     "mongodb+srv://cluster0:Password95@cluster0.cuhicor.mongodb.net/?retryWrites=true&w=majority"
@@ -132,6 +139,7 @@ export async function getStaticProps() {
       notes: notes.reverse().map((note) => ({
         title: note.title,
         body: note.body,
+        localId: note.localId,
         color: note.color,
         id: note._id.toString(),
       })),

@@ -16,12 +16,11 @@ const notesSlice = createSlice({
         id: action.payload.id,
         title: action.payload.title,
         body: action.payload.body,
-        color: action.payload.color
+        color: action.payload.color,
+        localId: action.payload.localId
       })
       
-      console.log('state.tempnotes' + state.tempnotes)
       state.notes = [...tempNotes]
-      console.log('state.notes' + state.notes)
 
     }
   },

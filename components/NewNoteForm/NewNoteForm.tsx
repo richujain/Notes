@@ -4,9 +4,9 @@ import Card from "../UI/Card/Card";
 import classes from "./NewNoteForm.module.css";
 import Modal from "../UI/Modal/Modal";
 import colorClasses from "./Colors.module.css";
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { noteActions } from "../../store/notes-slice";
+
 
 interface Props {
   onClose: () => void;
@@ -34,7 +34,6 @@ const COLORS = [
 
 export default function NewNoteForm(props: Props) {
   const dispatch = useDispatch()
-  const router = useRouter();
 
   const [color, setColor] = useState("white");
   const [body, setBody] = useState("");
@@ -42,26 +41,30 @@ export default function NewNoteForm(props: Props) {
   const titleRef = useRef<HTMLInputElement>(null);
 
   const submitHandler = (event: React.FormEvent) => {
+    const localId = localStorage.getItem('localId')
+    console.log('New Note Form'+localId)
     event.preventDefault();
     enteredTitle = titleRef.current!.value;
     noteData = {
       title: enteredTitle,
       body: body,
       color: color,
+      localId: localId
     };
     dispatch(
       noteActions.addToNotes({ 
         id: new Date().getTime(),
         title: enteredTitle,
         body,
-        color
+        color,
+        localId
       })
     )
-    //color //body //title
     addToDatabase();
   };
 
   async function addToDatabase() {
+    
     //change url when hostin https://notes.com/abc
     const response = await fetch("api/newnote", {
       method: "POST",
@@ -71,8 +74,6 @@ export default function NewNoteForm(props: Props) {
       },
     });
     const data = await response.json();
-    console.log(data);
-
     props.onClose();
   }
 
