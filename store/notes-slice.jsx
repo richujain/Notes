@@ -10,12 +10,19 @@ const notesSlice = createSlice({
       state.notes = action.payload || []
     },
     addToNotes(state, action) {
-      state.notes.push({
+      
+      const tempNotes = [...state.notes];
+      tempNotes.unshift({
         id: action.payload.id,
         title: action.payload.title,
         body: action.payload.body,
         color: action.payload.color
       })
+      
+      console.log('state.tempnotes' + state.tempnotes)
+      state.notes = [...tempNotes]
+      console.log('state.notes' + state.notes)
+
     }
   },
 });

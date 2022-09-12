@@ -6,7 +6,7 @@ import Notes from "../../components/Notes/Notes";
 import classes from "./index.module.css";
 import NewNoteForm from "../../components/NewNoteForm/NewNoteForm";
 import { MongoClient } from "mongodb";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { noteActions } from "../../store/notes-slice";
 
 const DUMMY_NOTES = [
@@ -73,26 +73,28 @@ interface Props {
     title: string;
     body: string;
     color: string;
-}[]
+  }[];
 }
 
 export default function AllNotes(props: Props) {
   const dispatch = useDispatch();
-  dispatch(
-    noteActions.updateNotes(props.notes)
-  )
-  const notesFromRedux = useSelector((state: any) => state.notes);
+  let isInitial = true;
   const [showForm, setShowForm] = useState(false);
   const router = useRouter();
   const authCtx = useContext(AuthContext);
-  
+
   useEffect(() => {
-    
     if (!authCtx.isLoggedIn) {
       router.replace("/");
     }
-  },[]);
-
+    if (isInitial) {
+      isInitial = false;
+      dispatch(noteActions.updateNotes(props.notes));
+    } else {
+      return;
+    }
+  }, [props.notes]);
+  let notesFromRedux = useSelector((state: any) => state.notes);
   const logoutHandler = () => {
     authCtx.logout();
     router.push("/");
