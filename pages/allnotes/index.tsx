@@ -6,7 +6,8 @@ import Notes from "../../components/Notes/Notes";
 import classes from "./index.module.css";
 import NewNoteForm from "../../components/NewNoteForm/NewNoteForm";
 import { MongoClient } from "mongodb";
-import NoteModel from "../../models/note";
+import { useDispatch, useSelector } from "react-redux"
+import { noteActions } from "../../store/notes-slice";
 
 const DUMMY_NOTES = [
   {
@@ -74,23 +75,23 @@ interface Props {
     color: string;
 }[]
 }
-interface notesType {
-  id: string;
-    title: string;
-    body: string;
-    color: string;
-}
 
 export default function AllNotes(props: Props) {
-  const [notes, setNotes] = useState<notesType[]>(props.notes)
+  const dispatch = useDispatch();
+  dispatch(
+    noteActions.updateNotes(props.notes)
+  )
+  const notesFromRedux = useSelector((state: any) => state.notes);
   const [showForm, setShowForm] = useState(false);
   const router = useRouter();
   const authCtx = useContext(AuthContext);
+  
   useEffect(() => {
+    
     if (!authCtx.isLoggedIn) {
       router.replace("/");
     }
-  },[notes]);
+  },[]);
 
   const logoutHandler = () => {
     authCtx.logout();
@@ -107,7 +108,7 @@ export default function AllNotes(props: Props) {
   return (
     <div className={classes.container}>
       <NavBar onLogout={logoutHandler} openForm={showFormHandler} />
-      <Notes allNotes={notes} />
+      <Notes allNotes={notesFromRedux} />
       {showForm && <NewNoteForm onClose={hideFormHandler} />}
     </div>
   );
@@ -126,13 +127,13 @@ export async function getStaticProps() {
   return {
     //always returns an object
     props: {
-      notes: notes.map((note) => ({
+      notes: notes.reverse().map((note) => ({
         title: note.title,
         body: note.body,
         color: note.color,
         id: note._id.toString(),
       })),
     },
-    revalidate: 10, // You can recreate static page from server every 10 seconds if there are continous requests coming for this particular page. So you can make sure that your data is not older than 10 seconds.
+    revalidate: 1, // You can recreate static page from server every 10 seconds if there are continous requests coming for this particular page. So you can make sure that your data is not older than 10 seconds.
   };
 }

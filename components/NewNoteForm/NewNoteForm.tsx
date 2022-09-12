@@ -4,6 +4,9 @@ import Card from "../UI/Card/Card";
 import classes from "./NewNoteForm.module.css";
 import Modal from "../UI/Modal/Modal";
 import colorClasses from "./Colors.module.css";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux"
+import { noteActions } from "../../store/notes-slice";
 
 interface Props {
   onClose: () => void;
@@ -30,6 +33,9 @@ const COLORS = [
 ];
 
 export default function NewNoteForm(props: Props) {
+  const dispatch = useDispatch()
+  const router = useRouter();
+
   const [color, setColor] = useState("white");
   const [body, setBody] = useState("");
   let enteredTitle, noteData: any;
@@ -38,29 +44,36 @@ export default function NewNoteForm(props: Props) {
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
     enteredTitle = titleRef.current!.value;
-noteData = {
-  title: enteredTitle,
-  body: body,
-  color: color
-}
+    noteData = {
+      title: enteredTitle,
+      body: body,
+      color: color,
+    };
+    dispatch(
+      noteActions.addToNotes({ 
+        id: new Date().getTime(),
+        title: enteredTitle,
+        body,
+        color
+      })
+    )
     //color //body //title
     addToDatabase();
   };
 
   async function addToDatabase() {
     //change url when hostin https://notes.com/abc
-    const response = await fetch('api/newnote',{
-      method: 'POST',
+    const response = await fetch("api/newnote", {
+      method: "POST",
       body: JSON.stringify(noteData),
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    const data = await response.json()
-    console.log(data)
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
 
-    props.onClose()
-
+    props.onClose();
   }
 
   const closeHandler = (event: React.FormEvent) => {
@@ -113,26 +126,22 @@ noteData = {
 
             {/* Category goes here */}
 
-           
-
             <div className={classes.actions}>
-            <Button onClick={submitHandler}>Add Note</Button>
-            <Button onClick={closeHandler}>Close</Button>
-          
-              
+              <Button onClick={submitHandler}>Add Note</Button>
+              <Button onClick={closeHandler}>Close</Button>
             </div>
           </form>
           <div className={colorClasses.listColorDiv}>
-              {COLORS.map((color) => (
-                <button
-                  // data-value={color.name}
-                  key={color.id}
-                  onClick={(e) => colorHandler(e, color.id)}
-                  className={colorClasses.dot}
-                  style={{ backgroundColor: `${color.id}` }}
-                ></button>
-              ))}
-            </div>
+            {COLORS.map((color) => (
+              <button
+                // data-value={color.name}
+                key={color.id}
+                onClick={(e) => colorHandler(e, color.id)}
+                className={colorClasses.dot}
+                style={{ backgroundColor: `${color.id}` }}
+              ></button>
+            ))}
+          </div>
         </Card>
       </div>
     </Modal>
