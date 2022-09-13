@@ -5,18 +5,20 @@ import Layout from "../UI/Layout/Layout";
 import { useEffect, useState } from "react";
 
 const Notes: React.FC<{ allNotes: NoteModel[] }> = (props) => {
-  const [userLoginId, setUserLoginId] = useState<string>();
+  console.log(props)
+  const [userLoginId, setUserLoginId] = useState<string | null>();
   useEffect(() => {
-    setUserLoginId(localStorage.getItem("localId"));
+    if(localStorage.getItem("localId")){
+      setUserLoginId(localStorage.getItem("localId"));
+    }
 
-    console.log("userloginid" + userLoginId);
   });
 
-  console.log(props.allNotes);
-  //.replaceAll("^\"|\"$", "")
   return (
     <Layout>
       <ul className={classes.notes}>
+
+        
         {props.allNotes.flatMap((note) =>
           note.localId == userLoginId ? (
             <Note
@@ -30,6 +32,8 @@ const Notes: React.FC<{ allNotes: NoteModel[] }> = (props) => {
             []
           )
         )}
+
+
       </ul>
     </Layout>
   );

@@ -42,7 +42,6 @@ export default function NewNoteForm(props: Props) {
 
   const submitHandler = (event: React.FormEvent) => {
     const localId = localStorage.getItem('localId')
-    console.log('New Note Form'+localId)
     event.preventDefault();
     enteredTitle = titleRef.current!.value;
     noteData = {
@@ -66,7 +65,7 @@ export default function NewNoteForm(props: Props) {
   async function addToDatabase() {
     
     //change url when hostin https://notes.com/abc
-    const response = await fetch("api/newnote", {
+    const response = await fetch("../api/newnote", {
       method: "POST",
       body: JSON.stringify(noteData),
       headers: {
@@ -115,7 +114,7 @@ export default function NewNoteForm(props: Props) {
                   padding: "0.50rem",
                   resize: "none",
                   fontSize: "1.7em",
-                  textTransform: "capitalize",
+                  textTransform: "-moz-initial",
                   outline: "none",
                   backgroundColor: `${color}`,
                 }}

@@ -3,7 +3,7 @@ import classes from "./Note.module.css";
 import { useRouter } from "next/router";
 
 // const Note: React.FC<{note: NoteModel}> = (props) =>  {
-const Note: React.FC<{
+const EditNote: React.FC<{
   id: string;
   title: string;
   body: string;
@@ -34,4 +34,4 @@ const Note: React.FC<{
   );
 };
 
-export default Note;
+export default EditNote;
