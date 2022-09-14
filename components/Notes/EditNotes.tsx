@@ -4,7 +4,8 @@ import Card from "../UI/Card/Card";
 import { useDispatch } from "react-redux";
 import Button from "../UI/Button/Button";
 import colorClasses from "../NewNoteForm/Colors.module.css";
-import NoteModel from "../../models/note";
+import { useRouter } from "next/router";
+
 
 const COLORS = [
   { id: "#F28B82", name: "Red" },
@@ -32,6 +33,8 @@ const EditNote: React.FC<{
   const [body, setBody] = useState(props.body);
   const [title, setTitle] = useState(props.title);
   const id = props.id;
+  const router = useRouter();
+
   //   const [bulletPoints, setBulletPoints] = useState(false);
   let noteData: any;
   const titleRef = useRef<HTMLInputElement>(null);
@@ -60,6 +63,7 @@ const EditNote: React.FC<{
       },
     });
     const data = await response.json();
+    router.replace("/allnotes");
   }
 
   const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
