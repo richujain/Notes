@@ -16,7 +16,7 @@ export default function NoteDetails(props: any) {
     if (!authCtx.isLoggedIn) {
       router.replace("/");
     }
-  }, []);
+  }, [authCtx.isLoggedIn, router]);
 
   // interface fetchFunctionReturnType extends WithId<Document> {
   //   id: string,

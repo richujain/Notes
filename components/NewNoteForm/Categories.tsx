@@ -12,9 +12,9 @@ export default function Categories(props: Props) {
       <div className={classes.dropdown}>
         <button className={classes.dropbtn}>Category</button>
         <div className={classes.dropdowncontent}>
-          {props.categories.map((category) => (
+          {/* {props.categories.map((category) => (
             <a href="#">{category.name}</a>
-          ))}
+          ))} */}
         </div>
       </div>
       

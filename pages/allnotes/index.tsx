@@ -97,7 +97,7 @@ export default function AllNotes(props: Props) {
     } else {
       return;
     }
-  }, [props.notes]);
+  }, [props.notes, router, authCtx.isLoggedIn]);
 
   let notesFromRedux = useSelector((state: any) => state.notes);
   

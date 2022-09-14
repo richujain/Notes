@@ -17,7 +17,7 @@ const logoutHandler = (event: React.FormEvent) => {
   return (
     <header className={classes.header}>
       <Link href="/allnotes">
-        <a className={currentRoute == "/allnotes" ? classes.active : ""} href="/allnotes">
+        <a className={currentRoute == "/allnotes" ? classes.active : ""}>
           Notes
         </a>
       </Link>
