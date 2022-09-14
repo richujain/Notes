@@ -89,6 +89,9 @@ export default function NewNoteForm(props: Props) {
     setBody(event.currentTarget.value);
   };
 
+  const insertBulletPoint= (event: any) => {
+    console.log(event.key)
+  };
   return (
     <Modal className={classes.container}>
       <div className="container" style={{ backgroundColor: `${color}` }}>
@@ -106,6 +109,7 @@ export default function NewNoteForm(props: Props) {
               <textarea
                 value={body}
                 onChange={bodyHandler}
+                onKeyDown={insertBulletPoint}
                 style={{
                   border: "none",
                   borderColor: "white",

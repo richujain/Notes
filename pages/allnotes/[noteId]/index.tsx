@@ -1,16 +1,22 @@
 import { useRouter } from "next/router";
 import NavBar from "../../../components/NavBar/NavBar";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../../store/auth-context";
 import NewNoteForm from "../../../components/NewNoteForm/NewNoteForm";
 import { MongoClient, ObjectId } from "mongodb";
-import EditNote from "../../../components/Notes/Note";
+import Layout from "../../../components/UI/Layout/Layout";
+import EditNote from "../../../components/Notes/EditNotes";
+import classes from './index.module.css'
 
 export default function NoteDetails(props: any) {
   const [showForm, setShowForm] = useState(false);
   const authCtx = useContext(AuthContext);
   const router = useRouter();
-
+  useEffect(() => {
+    if (!authCtx.isLoggedIn) {
+      router.replace("/");
+    }
+  }, []);
 
   // interface fetchFunctionReturnType extends WithId<Document> {
   //   id: string,
@@ -58,16 +64,20 @@ export default function NoteDetails(props: any) {
   };
 
   return (
-    <React.Fragment>
+    <Layout>
+     
       <NavBar onLogout={logoutHandler} openForm={showFormHandler} />
       {showForm && <NewNoteForm onClose={hideFormHandler} />}
+      <div className={classes.container}>
       <EditNote
       key={props.noteData.id}
       id={props.noteData.id}
       title={props.noteData.title}
       body={props.noteData.body}
       color={props.noteData.color} />
-    </React.Fragment>
+       </div>
+    </Layout>
+   
   );
 }
 
