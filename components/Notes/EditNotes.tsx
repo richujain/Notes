@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classes from "./EditNotes.module.css";
 import Card from "../UI/Card/Card";
 import { useDispatch } from "react-redux";
@@ -35,7 +35,7 @@ const EditNote: React.FC<{
   const id = props.id;
   const router = useRouter();
 
-  //   const [bulletPoints, setBulletPoints] = useState(false);
+    const [bulletPoints, setBulletPoints] = useState(false);
   let noteData: any;
   const titleRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
@@ -78,22 +78,27 @@ const EditNote: React.FC<{
     setBody(event.currentTarget.value);
   };
 
-  //   const insertBulletPoint = (event: any) => {
-  //     if (bulletPoints && event.key == "Enter") {
-  //       setBody(event.currentTarget.value + '• ')
-  //     }
-  //     console.log('insertBulletPoint')
+    const insertBulletPoint = (event: any) => {
+      if (bulletPoints && event.key == "Enter") {
+        setBody(event.currentTarget.value + '• ')
+      }
 
-  //   };
+    };
 
-  //   const bulletPointHandler = (event: any) => {
-  //     event.preventDefault()
-  //     // setBody(event.currentTarget.value + '• ') // not working
-  //     setBody(bodyRef.current.value + '• ')
-
-  //     setBulletPoints(!bulletPoints ); // Not Working. Value not changing.
-  //     console.log(bulletPoints)
-  //   };
+    const bulletPointHandler = (event: any) => {
+      event.preventDefault()
+      // setBody(event.currentTarget.value + '• ') // not working
+      if(!bulletPoints){
+        setBody(bodyRef.current.value + '• ')
+      }
+      setBulletPoints((bulletPoints) => !bulletPoints ); // Not Working. Value not changing.
+      console.log(bulletPoints)
+    };
+    useEffect(() => {
+      bodyRef.current.style.height = "0px";
+      const scrollHeight = bodyRef.current.scrollHeight;
+      bodyRef.current.style.height = scrollHeight + "px";
+    }, [body]);
   return (
     // style={{ backgroundColor: `${color}`, width: '60%' }}
     <div>
@@ -114,7 +119,7 @@ const EditNote: React.FC<{
               <textarea
                 value={body}
                 onChange={bodyHandler}
-                // onKeyUp={insertBulletPoint}
+                onKeyUp={insertBulletPoint}
                 style={{
                   border: "none",
                   borderColor: "white",
@@ -142,8 +147,7 @@ const EditNote: React.FC<{
                 width: "100%",
               }}
             >
-              {/* <button
-                onClick={bulletPointHandler}
+              <button
                 className={classes.button}
                 style={{
                   backgroundColor: "transparent",
@@ -156,7 +160,7 @@ const EditNote: React.FC<{
                   src="/static/bulleticonsmall.png"
                   alt="my image"
                   onClick={bulletPointHandler} />
-              </button>  */}
+              </button> 
 
               {/* <Button onClick={submitHandler}>Update Note</Button> */}
               <Button onClick={submitHandler}>Update Note</Button>
