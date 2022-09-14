@@ -89,15 +89,20 @@ const EditNote: React.FC<{
       event.preventDefault()
       // setBody(event.currentTarget.value + '• ') // not working
       if(!bulletPoints){
-        setBody(bodyRef.current.value + '• ')
+        if(bodyRef.current){
+          setBody(bodyRef.current.value + '• ')
+        }
       }
       setBulletPoints((bulletPoints) => !bulletPoints ); // Not Working. Value not changing.
       console.log(bulletPoints)
     };
     useEffect(() => {
-      bodyRef.current.style.height = "0px";
-      const scrollHeight = bodyRef.current.scrollHeight;
-      bodyRef.current.style.height = scrollHeight + "px";
+      if(bodyRef.current){
+        bodyRef.current.style.height = "0px";
+        const scrollHeight = bodyRef.current.scrollHeight;
+        bodyRef.current.style.height = scrollHeight + "px";
+      }
+      
     }, [body]);
   return (
     // style={{ backgroundColor: `${color}`, width: '60%' }}

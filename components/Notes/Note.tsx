@@ -51,6 +51,7 @@ const Note: React.FC<{
           readOnly
           rows={1}
           ref={textAreaRef}
+          // disabled
         />
 
         <div

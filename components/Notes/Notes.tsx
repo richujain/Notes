@@ -12,7 +12,7 @@ const Notes: React.FC<{ allNotes: NoteModel[] }> = (props) => {
       setUserLoginId(localStorage.getItem("localId"));
     }
 
-  });
+  },[]);
 
   return (
     <Layout>
