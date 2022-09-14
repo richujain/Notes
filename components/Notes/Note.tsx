@@ -15,9 +15,11 @@ const Note: React.FC<{
     router.push("/allnotes/" + props.id);
   };
   useEffect(() => {
-    textAreaRef.current.style.height = "0px";
-    const scrollHeight = textAreaRef.current.scrollHeight;
-    textAreaRef.current.style.height = scrollHeight + "px";
+    if (textAreaRef.current) {
+      textAreaRef.current.style.height = "0px";
+      const scrollHeight = textAreaRef.current.scrollHeight;
+      textAreaRef.current.style.height = scrollHeight + "px";
+    }
   }, [props.body]);
 
   return (
