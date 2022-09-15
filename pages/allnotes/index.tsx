@@ -9,7 +9,6 @@ import { MongoClient } from "mongodb";
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions } from "../../store/notes-slice";
 
-
 const DUMMY_NOTES = [
   {
     id: "1",
@@ -85,13 +84,11 @@ export default function AllNotes(props: Props) {
   const authCtx = useContext(AuthContext);
   let notesFromRedux = useSelector((state: any) => state.notes);
   useEffect(() => {
-    
-    
     if (!authCtx.isLoggedIn) {
       router.replace("/");
     }
-    if(notesFromRedux.length === 0){
-      console.log('initial zero')
+    if (notesFromRedux.length === 0) {
+      console.log("initial zero");
       dispatch(noteActions.updateNotes(props.notes));
     }
     //   // dispatch(noteActions.updateNotes(props.notes));
@@ -99,12 +96,10 @@ export default function AllNotes(props: Props) {
     //   console.log('isInitial false or null')
     // } else {
     //   localStorage.setItem('isInitial', 'true')
-     
+
     // }
   }, [props.notes, router, authCtx.isLoggedIn]);
 
-  
-  
   const logoutHandler = () => {
     authCtx.logout();
     router.push("/");

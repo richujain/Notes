@@ -22,6 +22,18 @@ const notesSlice = createSlice({
       
       state.notes = [...tempNotes]
 
+    },
+    updateNoteById(state, action) {
+      const tempNotes = {
+        id: action.payload.id,
+        title: action.payload.title,
+        body: action.payload.body,
+        color: action.payload.color,
+        localId: action.payload.localId,
+      };
+      state.notes[
+        state.notes.findIndex((note) => note.id === tempNotes.id)
+      ] = tempNotes;
     }
   },
 });

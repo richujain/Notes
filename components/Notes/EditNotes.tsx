@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import Button from "../UI/Button/Button";
 import colorClasses from "../NewNoteForm/Colors.module.css";
 import { useRouter } from "next/router";
+import { noteActions } from "../../store/notes-slice";
 
 
 const COLORS = [
@@ -50,7 +51,20 @@ const EditNote: React.FC<{
       color: color,
       localId: localId,
     };
-    updateNote();
+    updateNote().then(() => {
+      dispatch(
+        noteActions.updateNoteById({ 
+          id: id,
+          title: title,
+          body,
+          color,
+          localId
+        })
+      )
+    });
+
+    
+
   };
 
   async function updateNote() {
