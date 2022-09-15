@@ -80,26 +80,30 @@ interface Props {
 
 export default function AllNotes(props: Props) {
   const dispatch = useDispatch();
-  let isInitial = true;
   const [showForm, setShowForm] = useState(false);
   const router = useRouter();
   const authCtx = useContext(AuthContext);
-
+  let notesFromRedux = useSelector((state: any) => state.notes);
   useEffect(() => {
     
-
+    
     if (!authCtx.isLoggedIn) {
       router.replace("/");
     }
-    if (isInitial) {
-      isInitial = false;
+    if(notesFromRedux.length === 0){
+      console.log('initial zero')
       dispatch(noteActions.updateNotes(props.notes));
-    } else {
-      return;
     }
+    //   // dispatch(noteActions.updateNotes(props.notes));
+    // if (isInitial === 'false' || null) {
+    //   console.log('isInitial false or null')
+    // } else {
+    //   localStorage.setItem('isInitial', 'true')
+     
+    // }
   }, [props.notes, router, authCtx.isLoggedIn]);
 
-  let notesFromRedux = useSelector((state: any) => state.notes);
+  
   
   const logoutHandler = () => {
     authCtx.logout();

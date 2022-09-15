@@ -5,7 +5,6 @@ import Layout from "../UI/Layout/Layout";
 import { useEffect, useState } from "react";
 
 const Notes: React.FC<{ allNotes: NoteModel[] }> = (props) => {
-  console.log(props)
   const [userLoginId, setUserLoginId] = useState<string | null>();
   useEffect(() => {
     if(localStorage.getItem("localId")){

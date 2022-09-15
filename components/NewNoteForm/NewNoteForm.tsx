@@ -37,7 +37,7 @@ export default function NewNoteForm(props: Props) {
 
   const [color, setColor] = useState("white");
   const [body, setBody] = useState("");
-  let enteredTitle, noteData: any;
+  let enteredTitle: string, noteData: any;
   const titleRef = useRef<HTMLInputElement>(null);
 
   const submitHandler = (event: React.FormEvent) => {
@@ -50,16 +50,21 @@ export default function NewNoteForm(props: Props) {
       color: color,
       localId: localId
     };
-    dispatch(
-      noteActions.addToNotes({ 
-        id: new Date().getTime(),
-        title: enteredTitle,
-        body,
-        color,
-        localId
-      })
-    )
-    addToDatabase();
+    const promiseWithDataId = addToDatabase();
+    promiseWithDataId.then((id) => {
+      dispatch(
+        noteActions.addToNotes({ 
+          id: id,
+          title: enteredTitle,
+          body,
+          color,
+          localId
+        })
+      )
+    })
+    // console.log(newDataId) // Finally
+    
+    
   };
 
   async function addToDatabase() {
@@ -74,6 +79,7 @@ export default function NewNoteForm(props: Props) {
     });
     const data = await response.json();
     props.onClose();
+    return data.dataId;
   }
 
   const closeHandler = (event: React.FormEvent) => {
@@ -90,7 +96,7 @@ export default function NewNoteForm(props: Props) {
   };
 
   const insertBulletPoint= (event: any) => {
-    console.log(event.key)
+    // console.log(event.key)
   };
   return (
     <Modal className={classes.container}>
